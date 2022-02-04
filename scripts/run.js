@@ -5,22 +5,27 @@ const main = async () => {
     const waveContract = await waveContractFactory.deploy();
     await waveContract.deployed();
 
-    console.log("Contract address:", waveContract.address);
+    console.log("Contract addy:", waveContract.address);
     console.log("Contract owner:", owner.address);
 
     let waveCount;
     waveCount = await waveContract.getTotalWaves();
+    console.log(waveCount.toNumber());
 
-    let waveTxn = await waveContract.add();
-    await waveTxn.wait();
+    /*
+       Sending a few waves!
+     */
+
+    let waveTxn = await waveContract.wave("A message!");
+    await waveTxn.wait(); // wait for transaction to be mined
+
     waveCount = await waveContract.getTotalWaves();
 
-    waveTxn = await waveContract.connect(randomPerson).sub();
+    waveTxn = await waveContract.connect(randomPerson).wave("Another Message!");
     await waveTxn.wait();
-    waveCount = await waveContract.getTotalWaves();
 
-    // waves per person
-    let allAddyTxn = await waveContract.printAllAddys();
+    waveCount = await waveContract.getTotalWaves();
+    console.log(waveCount);
 };
 
 const runMain = async () => {
