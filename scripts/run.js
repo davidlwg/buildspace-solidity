@@ -24,13 +24,17 @@ const main = async () => {
        Sending a few waves!
      */
 
-    let waveTxn = await waveContract.wave("A message!");
+    let waveTxn = await waveContract.wave("This is wave #1");
     await waveTxn.wait(); // wait for transaction to be mined
 
     contractBalance = await hre.ethers.provider.getBalance(waveContract.address);
     console.log("Contract balance: ", hre.ethers.utils.formatEther(contractBalance));
 
-    waveTxn = await waveContract.connect(randomPerson).wave("Another Message!");
+
+    /*
+        wave from random account
+    */
+    waveTxn = await waveContract.connect(randomPerson).wave("This is wave #2!");
     await waveTxn.wait();
 
     contractBalance = await hre.ethers.provider.getBalance(waveContract.address);
